@@ -11,6 +11,8 @@ public class Player :
 
                         currentSpeed;
 
+    private Vector3 rotation;
+
     private Timer shootingTimer,
 
                         slowTimer;
@@ -35,7 +37,15 @@ public class Player :
 
                         throwForce;
 
-    public KeyCode shootingKey;
+    public string shootButton,
+
+                    rotationAxisX,
+
+                    rotationAxisY,
+
+                    movementAxisX,
+
+                    movementAxisY;
 
     public Transform bulletSpawnPoint,
 
@@ -52,7 +62,7 @@ public class Player :
         minMovementSpeed = maxMovementSpeed / 2;
         currentSpeed = maxMovementSpeed;
 
-        throw new FuckYourselfException("fuc u");
+        rotation = new Vector3(0f, 0f, 1f);
     }
 
     // Update is called once per frame
@@ -120,36 +130,37 @@ public class Player :
 
     private void Move()
     {
-        Vector3 movement = new Vector3(0, 0, Input.GetAxis("Vertical"));
-        transform.Translate(maxMovementSpeed * movement * Time.deltaTime);
+        Vector3 movement = new Vector3(Input.GetAxis(movementAxisX), 0, -Input.GetAxis(movementAxisY));
+        transform.position += maxMovementSpeed * movement * Time.deltaTime;
 
-        Vector3 rotation = new Vector3(0, Input.GetAxis("Mouse X"), 0);
-        transform.Rotate(rotationSpeed * rotation * Time.deltaTime);
+        //Vector3 rotation = new Vector3(0, Input.GetAxis("), 0);
+        //transform.Rotate(rotationSpeed * rotation * Time.deltaTime);
+
+        rotation = transform.position + new Vector3(Input.GetAxis(rotationAxisX), 0f, -Input.GetAxis(rotationAxisY));
+        //transform.Rotate(rotationSpeed * rotation * Time.deltaTime);
+        transform.LookAt(rotation);
     }
 
     private void Shoot()
     {
         shootingTimer.Update();
 
-        if (Input.GetKey(shootingKey) && shootingTimer.Check())
+        if (Input.GetButton(shootButton) && shootingTimer.Check())
         {
             if (pickupObject == null)
                 Instantiate(bulletPrefab, bulletSpawnPoint.position, transform.rotation);
             else
             {
-                if (Input.GetKeyDown(shootingKey))
+                if (pickupObject.tag == "Food")
                 {
-                    if (pickupObject.tag == "Food")
-                    {
-                        pickupObject.GetComponent<Food>().Eat(this);
-                    }
-                    else
-                    {
-                        Rigidbody rigidbody = pickupObject.GetComponent<Rigidbody>();
-                        rigidbody.velocity = throwForce * transform.forward + throwForce / 2 * Vector3.up;
-                        pickupObject.GetComponent<Collider>().enabled = true;
-                        pickupObject = null;
-                    }
+                    pickupObject.GetComponent<Food>().Eat(this);
+                }
+                else
+                {
+                    Rigidbody rigidbody = pickupObject.GetComponent<Rigidbody>();
+                    rigidbody.velocity = throwForce * transform.forward + throwForce / 2 * Vector3.up;
+                    pickupObject.GetComponent<Collider>().enabled = true;
+                    pickupObject = null;
                 }
             }
 
