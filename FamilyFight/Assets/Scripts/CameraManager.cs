@@ -27,7 +27,7 @@ public class CameraManager :
     void Update()
     {
         float distance = Vector3.Distance(player1.transform.position, player2.transform.position);
-        camera.transform.position = new Vector3(camera.transform.position.x, offset.y + distance, -(offset.z + distance));
+        camera.transform.position = new Vector3(offset.x + distance, offset.y + distance, transform.position.z);
     }
 
 }
