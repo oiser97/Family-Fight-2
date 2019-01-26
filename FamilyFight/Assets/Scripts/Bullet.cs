@@ -28,14 +28,19 @@ public class Bullet :
         transform.position += speed * transform.forward * Time.deltaTime;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    public void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.tag == "Player")
         {
             collision.gameObject.GetComponent<Player>().health -= damage;
             //GameManager.instance.UpdateUI();
             Destroy(this.gameObject);
+            Debug.Log("cacca");
         }
+        Debug.Log("schifo");
+
+
+        Destroy(this.gameObject);
     }
 
 }

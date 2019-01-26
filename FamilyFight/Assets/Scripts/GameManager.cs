@@ -20,7 +20,11 @@ public class GameManager :
 
     private Timer               gameTimer;
 
-    public Text                 timeText;
+    public Text                 timeText,
+
+                                scorePlayerOneText,
+
+                                scorePlayerTwoText;
 
 
     private void Awake()
@@ -40,13 +44,9 @@ public class GameManager :
             UpdateUI();
 
         gameTimer.Update();
+        GameOverTimer();
+        UIScore();
 
-        float remaining_t = gameTimer.RemainingTime() / 60f;
-        int dec = (int)((remaining_t - (int)remaining_t) * 100);
-        // dec : 100 = x : 60
-        // dec * 60 = 100 * x
-        // x = dec * 60 / 100
-        timeText.text = "TIME REMANING: \n" + ((int) remaining_t) + ":" + (int)(dec * 0.6);
     }
 
     public void UpdateUI()
@@ -65,7 +65,44 @@ public class GameManager :
 
     public void GameOverTimer()
     {
-
+        float remaining_t = gameTimer.RemainingTime() / 60f;
+        int dec = (int)((remaining_t - (int)remaining_t) * 100);
+        // dec : 100 = x : 60
+        // dec * 60 = 100 * x
+        // x = dec * 60 / 100
+        timeText.text = "TIME REMANING: \n" + ((int)remaining_t) + ":" + (int)(dec * 0.6);
     }
 
+    private void UIScore()
+    {
+        scorePlayerOneText.text = "";
+        scorePlayerTwoText.text = "";
+
+        for (int i = 100; i > 0; i /= 10 )
+        {
+            if (i > playerOne.score)
+            {
+                scorePlayerOneText.text += "0";
+
+            }
+            else
+            {
+                scorePlayerOneText.text += playerOne.score;
+            }
+        }
+
+        for (int i = 100; i > 0; i /= 10)
+        {
+            if (i > playerTwo.score)
+            {
+                scorePlayerTwoText.text += "0";
+
+            }
+            else
+            {
+                scorePlayerTwoText.text += playerTwo.score;
+            }
+        }
+
+    }
 }
