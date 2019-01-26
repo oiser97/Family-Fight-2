@@ -7,29 +7,27 @@ public class Player :
     MonoBehaviour
 {
 
-    private float minMovementSpeed,
+    private float       minMovementSpeed,
 
                         currentSpeed;
 
-    private Vector3 rotation;
+    private Vector3     rotation;
 
-    private Timer shootingTimer,
+    private Timer       shootingTimer,
 
                         slowTimer;
 
-    private GameObject pickupObject;
+    private GameObject  pickupObject;
 
-    public bool hasRemote;
+    public bool         hasRemote;
 
-    public int pickupLayer,
+    public int          pickupLayer,
 
                         score,
 
                         health;
 
-    public float maxMovementSpeed,
-
-                        rotationSpeed,
+    public float        maxMovementSpeed,
 
                         shootDelay,
 
@@ -37,21 +35,21 @@ public class Player :
 
                         throwForce;
 
-    public string shootButton,
+    public string       shootButton,
 
-                    rotationAxisX,
+                        throwButton,
 
-                    rotationAxisY,
+                        rotationAxisX,
 
-                    movementAxisX,
+                        rotationAxisY,
 
-                    movementAxisY;
+                        movementAxisY;
 
-    public Transform bulletSpawnPoint,
+    public Transform    bulletSpawnPoint,
 
                         pickupPoint;
 
-    public GameObject bulletPrefab;
+    public GameObject   bulletPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -63,6 +61,11 @@ public class Player :
         currentSpeed = maxMovementSpeed;
 
         rotation = new Vector3(0f, 0f, 1f);
+
+        foreach(string joystick in Input.GetJoystickNames())
+        {
+            Debug.Log(joystick);
+        }
     }
 
     // Update is called once per frame
@@ -130,13 +133,14 @@ public class Player :
 
     private void Move()
     {
-        Vector3 movement = new Vector3(Input.GetAxis(movementAxisX), 0, -Input.GetAxis(movementAxisY));
+        //Vector3 movement = new Vector3(/*Input.GetAxis(movementAxisX)*/0, 0, Input.GetAxis(movementAxisY));
+        Vector3 movement = transform.forward * Input.GetAxis(movementAxisY);
         transform.position += maxMovementSpeed * movement * Time.deltaTime;
 
         //Vector3 rotation = new Vector3(0, Input.GetAxis("), 0);
         //transform.Rotate(rotationSpeed * rotation * Time.deltaTime);
 
-        rotation = transform.position + new Vector3(Input.GetAxis(rotationAxisX), 0f, -Input.GetAxis(rotationAxisY));
+        rotation = transform.position + new Vector3(Input.GetAxis(rotationAxisX), 0f, Input.GetAxis(rotationAxisY)) * Time.deltaTime;
         //transform.Rotate(rotationSpeed * rotation * Time.deltaTime);
         transform.LookAt(rotation);
     }
@@ -147,24 +151,23 @@ public class Player :
 
         if (Input.GetButton(shootButton) && shootingTimer.Check())
         {
-            if (pickupObject == null)
-                Instantiate(bulletPrefab, bulletSpawnPoint.position, transform.rotation);
+            Instantiate(bulletPrefab, bulletSpawnPoint.position, transform.rotation);
+            shootingTimer.Reset();
+        }
+
+        if (Input.GetButton(throwButton) && pickupObject != null)
+        {
+            if (pickupObject.tag == "Food")
+            {
+                pickupObject.GetComponent<Food>().Eat(this);
+            }
             else
             {
-                if (pickupObject.tag == "Food")
-                {
-                    pickupObject.GetComponent<Food>().Eat(this);
-                }
-                else
-                {
-                    Rigidbody rigidbody = pickupObject.GetComponent<Rigidbody>();
-                    rigidbody.velocity = throwForce * transform.forward + throwForce / 2 * Vector3.up;
-                    pickupObject.GetComponent<Collider>().enabled = true;
-                    pickupObject = null;
-                }
+                Rigidbody rigidbody = pickupObject.GetComponent<Rigidbody>();
+                rigidbody.velocity = throwForce * transform.forward + throwForce / 2 * Vector3.up;
+                pickupObject.GetComponent<Collider>().enabled = true;
+                pickupObject = null;
             }
-
-            shootingTimer.Reset();
         }
     }
 
@@ -173,15 +176,6 @@ public class Player :
         currentSpeed = minMovementSpeed;
         slowTimer.Resume();
         slowTimer.Reset();
-        Player player = this[69];
-    }
-
-    public Player this[int index]
-    {
-        get
-        {
-            return null;
-        }
     }
 
 }
