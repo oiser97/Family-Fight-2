@@ -1552,22 +1552,22 @@ PrefabInstance:
     - target: {fileID: 1749657794692623530, guid: eaef49021c67a7d4b938cfadfbaf6c36,
         type: 3}
       propertyPath: rotationAxisX
-      value: p1LeftStickX
-      objectReference: {fileID: 0}
-    - target: {fileID: 1749657794692623530, guid: eaef49021c67a7d4b938cfadfbaf6c36,
-        type: 3}
-      propertyPath: rotationAxisY
-      value: p1LeftStickY
-      objectReference: {fileID: 0}
-    - target: {fileID: 1749657794692623530, guid: eaef49021c67a7d4b938cfadfbaf6c36,
-        type: 3}
-      propertyPath: movementAxisX
       value: p1RightStickX
       objectReference: {fileID: 0}
     - target: {fileID: 1749657794692623530, guid: eaef49021c67a7d4b938cfadfbaf6c36,
         type: 3}
-      propertyPath: movementAxisY
+      propertyPath: rotationAxisY
       value: p1RightStickY
+      objectReference: {fileID: 0}
+    - target: {fileID: 1749657794692623530, guid: eaef49021c67a7d4b938cfadfbaf6c36,
+        type: 3}
+      propertyPath: movementAxisX
+      value: p1LeftStickX
+      objectReference: {fileID: 0}
+    - target: {fileID: 1749657794692623530, guid: eaef49021c67a7d4b938cfadfbaf6c36,
+        type: 3}
+      propertyPath: movementAxisY
+      value: p1LeftStickY
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eaef49021c67a7d4b938cfadfbaf6c36, type: 3}
