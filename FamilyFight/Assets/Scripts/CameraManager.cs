@@ -9,7 +9,7 @@ public class CameraManager :
 
     public Vector3      offset;
 
-    public Camera       camera;
+    public Camera       targetCamera;
 
     public GameObject   player1,
 
@@ -27,7 +27,7 @@ public class CameraManager :
     void Update()
     {
         float distance = Vector3.Distance(player1.transform.position, player2.transform.position);
-        camera.transform.position = new Vector3(offset.x + distance, offset.y + distance, transform.position.z);
+        targetCamera.transform.position = new Vector3(offset.x + distance, offset.y + distance, transform.position.z);
     }
 
 }

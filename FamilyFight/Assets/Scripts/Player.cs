@@ -127,6 +127,7 @@ public class Player :
             if (flagzone.CheckTimer() && hasRemote)
             {
                 score += flagzone.pointsPerTick;
+                flagzone.ResetTimer();
             }
         }
     }

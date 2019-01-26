@@ -26,6 +26,10 @@ public class GameManager :
 
                                 scorePlayerTwoText;
 
+    public GameObject           spawnPlayerOne,
+
+                                spawnPlayerTwo;
+
 
     private void Awake()
     {
@@ -46,7 +50,8 @@ public class GameManager :
         gameTimer.Update();
         GameOverTimer();
         UIScore();
-
+        UILife();
+        CheckPlayerLife();
     }
 
     public void UpdateUI()
@@ -75,8 +80,8 @@ public class GameManager :
 
     private void UIScore()
     {
-        scorePlayerOneText.text = "";
-        scorePlayerTwoText.text = "";
+        scorePlayerOneText.text = "SCORE \n";
+        scorePlayerTwoText.text = "SCORE \n";
 
         for (int i = 100; i > 0; i /= 10 )
         {
@@ -88,6 +93,7 @@ public class GameManager :
             else
             {
                 scorePlayerOneText.text += playerOne.score;
+                break;
             }
         }
 
@@ -101,7 +107,36 @@ public class GameManager :
             else
             {
                 scorePlayerTwoText.text += playerTwo.score;
+                break;
             }
+        }
+    }
+
+    public void UILife()
+    {
+        for(int i = 0; i < playerOneLives.Length; i ++)
+        {
+            playerOneLives[i].SetActive(i < playerOne.health);
+
+        }
+
+        for (int i = 0; i < playerTwoLives.Length; i++)
+        {
+            playerTwoLives[i].SetActive(i < playerTwo.health);
+
+        }
+    }
+
+    public void CheckPlayerLife()
+    {
+        if(playerOne.health <= 0)
+        {
+            playerOne.transform. position = spawnPlayerOne.transform.position;
+        }
+
+        if (playerTwo.health <= 0)
+        {
+            playerTwo.transform.position = spawnPlayerTwo.transform.position;
         }
 
     }

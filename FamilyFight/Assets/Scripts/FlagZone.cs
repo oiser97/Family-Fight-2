@@ -17,7 +17,7 @@ public class FlagZone :
 
     void Start()
     {
-        pointTimer = new Timer(delay);
+        pointTimer = new Timer(false, delay);
     }
 
     // Update is called once per frame.
@@ -30,6 +30,11 @@ public class FlagZone :
     public bool CheckTimer()
     {
         return pointTimer.Check();
+    }
+
+    public void ResetTimer()
+    {
+        pointTimer.Reset();
     }
 
 }
