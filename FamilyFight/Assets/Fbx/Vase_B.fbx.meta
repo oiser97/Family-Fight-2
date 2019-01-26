@@ -1,14 +1,14 @@
 fileFormatVersion: 2
-guid: f1317ade26b35c7419695c5e85323d93
+guid: 1c72185f68369b94492e9f5a12f1b6d8
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
-    2100000: drawer_normal_tangent
+    2100000: No Name
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Drawer_lp
+    4300000: Vase B
   externalObjects: {}
   materials:
     importMaterials: 1

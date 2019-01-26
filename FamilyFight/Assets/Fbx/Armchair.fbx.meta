@@ -1,14 +1,14 @@
 fileFormatVersion: 2
-guid: e068e2ab333a96d4d900f4328fba46a2
+guid: afe93ad5ca96698458adb8212b12fde5
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
-    2100000: No Name
+    2100000: m_Armchair
     2300000: //RootNode
     3300000: //RootNode
-    4300000: KitchenTable
+    4300000: Armchair
   externalObjects: {}
   materials:
     importMaterials: 1
