@@ -37,10 +37,6 @@ public class Bullet :
             Destroy(this.gameObject);
             Debug.Log("cacca");
         }
-        Debug.Log("schifo");
-
-
-        Destroy(this.gameObject);
     }
 
 }
