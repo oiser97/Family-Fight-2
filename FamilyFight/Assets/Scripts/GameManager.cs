@@ -26,7 +26,7 @@ public class GameManager :
 
                                 scorePlayerTwoText;
 
-    public GameObject           spawnPlayerOne,
+    public Transform           spawnPlayerOne,
 
                                 spawnPlayerTwo;
 
@@ -129,14 +129,14 @@ public class GameManager :
 
     public void CheckPlayerLife()
     {
-        if(playerOne.health <= 0)
+        if(!playerOne.isDead && playerOne.health <= 0)
         {
-            playerOne.transform. position = spawnPlayerOne.transform.position;
+            playerOne.Die(spawnPlayerOne.transform);
         }
 
-        if (playerTwo.health <= 0)
+        if (!playerTwo.isDead && playerTwo.health <= 0)
         {
-            playerTwo.transform.position = spawnPlayerTwo.transform.position;
+            playerTwo.Die(spawnPlayerTwo.transform);
         }
 
     }

@@ -7,33 +7,65 @@ public class Player :
     MonoBehaviour
 {
 
+    // Movement speed.
+
     private float       minMovementSpeed,
 
                         currentSpeed;
 
+    // Player rotation.
+
     private Vector3     rotation;
+
+    // Timers.
+
+    // Timer between shootings.
 
     private Timer       shootingTimer,
 
-                        slowTimer;
+    // Timer that times the slowing of the player.
+
+                        slowTimer,
+
+                        respawnTimer;
+
+    // Object the player has equipped.
 
     private GameObject  pickupObject;
 
-    public bool         hasRemote;
+    // Boolean that indicates if the player has the remote.
+
+    public bool         hasRemote,
+
+    // Boolean that indicates if the player can move.
+
+                        isDead;
+
+    // Layer on which GameObjects can be picked up.
 
     public int          pickupLayer,
 
+    // Score of the player.
+
                         score,
+
+    // Health of the player.
 
                         health;
 
+    // Max movement speed of the player.
+
     public float        maxMovementSpeed,
+
+    // Delay between shootings.
 
                         shootDelay,
 
-                        pickupRange,
+    // Force of the throwing of an object.
 
                         throwForce;
+
+    // Inputs.
 
     public string       shootButton,
 
@@ -45,35 +77,40 @@ public class Player :
 
                         movementAxisY;
 
+    // Spawnpoint of the bullets.
+
     public Transform    bulletSpawnPoint,
+
+    // Position of an equipped object.
 
                         pickupPoint;
 
+    // Prefab of the default bullet.
+
     public GameObject   bulletPrefab;
 
-    // Start is called before the first frame update
+    // Start is called before the first frame update.
+
     void Start()
     {
         shootingTimer = new Timer(false, shootDelay);
-
         slowTimer = new Timer(false, 3f, 3f);
+        respawnTimer = new Timer(false, 0f, 1f);
+
         minMovementSpeed = maxMovementSpeed / 2;
         currentSpeed = maxMovementSpeed;
 
         rotation = new Vector3(0f, 0f, 1f);
-
-        foreach(string joystick in Input.GetJoystickNames())
-        {
-            Debug.Log(joystick);
-        }
     }
 
-    // Update is called once per frame
+    // Update is called once per frame.
+
     void Update()
     {
-        Move();
+        if (!isDead)
+            Move();
+
         Shoot();
-        //PickUp();
 
         if (pickupObject != null)
         {
@@ -88,13 +125,16 @@ public class Player :
             slowTimer.Reset();
         }
 
-        if (Input.GetKeyDown(KeyCode.L))
-            Slow();
+        if(isDead)
+        {
+            CheckRespawn();
+        }
+
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (pickupObject == null && collision.gameObject.layer == pickupLayer)
+        if (pickupObject == null && collision.gameObject.layer == pickupLayer && collision.gameObject.transform.position.y < 1f)
         {
             pickupObject = collision.collider.gameObject;
             collision.collider.enabled = false;
@@ -177,6 +217,29 @@ public class Player :
         currentSpeed = minMovementSpeed;
         slowTimer.Resume();
         slowTimer.Reset();
+    }
+
+    public void Die(Transform spawnPoint)
+    {
+        isDead = true;
+        respawnTimer.Reset();
+        transform.position = spawnPoint.position;
+    }
+
+    public void CheckRespawn()
+    {
+        if(respawnTimer.UpdateAndCheck())
+        {
+            SpawnPlayer();
+           
+        }
+        Debug.Log(respawnTimer.GetElapsedTime());
+    }
+
+    public void SpawnPlayer()
+    {
+        health = 3;
+        isDead = false;
     }
 
 }
